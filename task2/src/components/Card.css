@@ -1,0 +1,19 @@
+hr {
+    border: none;
+    background-color: rgb(90, 19, 19);
+    height: 1px;
+}
+
+.card {
+    margin: 10px;
+    padding: 5px;
+    width: 33%;
+    height: 25%;
+    border: 3px solid rgb(34, 233, 34);
+}
+
+.caption {
+    margin: 0;
+    padding-left: 10px;
+    color: rgb(183, 231, 95);
+}
