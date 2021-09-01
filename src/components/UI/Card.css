@@ -1,3 +1,13 @@
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus{
+  -webkit-text-fill-color: rgb(34, 233, 34);
+  box-shadow: 0 0 0px 1000px #808080 inset;
+  transition: background-color 9999s ease-in-out 0s;
+  -webkit-transition-delay: 9999s;
+  
+} */
+
 p {
   margin: 0;
 }
@@ -82,7 +92,7 @@ form {
   display: none;
 }
 
-.edit-button {
+.save-cancel__buttons {
   display: none;
 }
 
@@ -92,7 +102,7 @@ form {
   cursor: pointer;
 }
 
-.button-close {
+.button-cancel {
   background: rgb(180, 21, 34);
   border-radius: 50%;
   cursor: pointer;
@@ -101,6 +111,7 @@ form {
 .card-text__caption {
   width: 65%;
   max-width: 65%;
+  overflow: hidden;
   background: rgb(105, 117, 139);
   color: rgb(255, 236, 67);
   cursor: pointer;
@@ -116,8 +127,6 @@ form {
   border: none;
   background-image: none;
   background-color: transparent;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
   outline: 0;
   outline-offset: 0;
@@ -132,7 +141,7 @@ form {
   color: rgb(255, 236, 67);
   cursor: pointer;
   box-shadow: inset 5px 5px 5px 0 rgba(0, 0, 0, 0.5),
-  inset 5px 5px 5px 0 rgba(255, 255, 255, 0.5);
+    inset 5px 5px 5px 0 rgba(255, 255, 255, 0.5);
 }
 
 .card-text__none {
@@ -144,8 +153,6 @@ form {
   background: inherit;
   border: none;
   background-color: transparent;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
   outline: 0;
   outline-offset: 0;
@@ -155,3 +162,4 @@ form {
   position: absolute;
   right: 0;
 }
+

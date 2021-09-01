@@ -2,8 +2,11 @@ import React from "react";
 import { VscEdit } from "react-icons/vsc";
 import { VscSave } from "react-icons/vsc";
 import { VscClose } from "react-icons/vsc";
+//import classnames from 'classnames';
 
 import "./Card.css";
+
+var classNames = require("classnames");
 
 class Card extends React.Component {
   constructor(props) {
@@ -11,18 +14,17 @@ class Card extends React.Component {
     this.state = {
       checked: false,
       clicked: false,
-      inputValue: "",
-      textareaValue: "",
-      input: "",
-      textarea: ""
+        input: "",
+        inputValue: "",
+        textarea: "",
+        textareaValue: "",
     };
   }
 
   handleSubmit(event) {
     event.preventDefault();
-
-    this.setState({input: this.state.inputValue});
-    this.setState({textarea: this.state.textareaValue});
+    this.setState({ input: this.state.inputValue });
+    this.setState({ textarea: this.state.textareaValue });
   }
 
   inputChangeHandler(event) {
@@ -33,18 +35,34 @@ class Card extends React.Component {
     this.setState({ textareaValue: event.target.value });
   }
 
+  onClicked() {
+    this.setState((state) => ({ clicked: !state.clicked }));
+    if (this.state.checked) {
+      this.setState({ checked: false });
+    }
+
+    this.setState({ inputValue: this.state.input });
+    this.setState({ textareaValue: this.state.textarea });
+  }
+
   render() {
+    var inputClass = classNames("card-text__caption-none", {
+      "card-text__caption": this.state.clicked,
+    });
+    var textareaClass = classNames("card-text__none", {
+      "card-text": this.state.clicked,
+    });
+    var btnEditClass = classNames("card-button", {
+      "card-button__none": this.state.clicked,
+    });
+
     return (
       <div className={this.state.checked ? "card-item" : "card"}>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <div className={"card-inner__caption"}>
             <input
               autoComplete="off"
-              className={
-                this.state.clicked
-                  ? "card-text__caption"
-                  : "card-text__caption-none"
-              }
+              className={inputClass}
               placeholder={
                 this.state.clicked ? "Enter Caption" : "Click Button >>>"
               }
@@ -55,12 +73,10 @@ class Card extends React.Component {
 
             <div className="buttons">
               <button
-                className={
-                  this.state.clicked ? "card-button__none" : "card-button"
-                }
+                className={btnEditClass}
                 onClick={() => {
                   this.setState((state) => ({ clicked: !state.clicked }));
-                  if (this.state.checked === true) {
+                  if (this.state.checked) {
                     this.setState({ checked: false });
                   }
                 }}
@@ -77,10 +93,9 @@ class Card extends React.Component {
                 checked={this.state.checked}
               />
 
-              <div className={this.state.clicked ? "" : "edit-button"}>
+              <div className={this.state.clicked ? "" : "save-cancel__buttons"}>
                 <button
                   type="submit"
-                  // onClick={() => this.onSaved()}
                   onClick={() => {
                     this.setState((state) => ({ clicked: !state.clicked }));
                   }}
@@ -88,15 +103,9 @@ class Card extends React.Component {
                 >
                   <VscSave />
                 </button>
-                <button className="button-close"
-                onClick={() => {
-                  this.setState((state) => ({ clicked: !state.clicked }));
-                  if (this.state.checked === true) {
-                    this.setState({ checked: false });
-                  };
-                  this.setState({inputValue: this.state.input});
-                  this.setState({textareaValue: this.state.textarea})
-                }}
+                <button
+                  className="button-cancel"
+                  onClick={() => this.onClicked()}
                 >
                   <VscClose />
                 </button>
@@ -109,7 +118,7 @@ class Card extends React.Component {
           <textarea
             type="text"
             autoComplete="off"
-            className={this.state.clicked ? "card-text" : "card-text__none"}
+            className={textareaClass}
             placeholder={this.state.clicked ? "Enter Text" : ""}
             value={this.state.textareaValue}
             onChange={(e) => this.textareaChangeHandler(e)}
