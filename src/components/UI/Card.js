@@ -1,111 +1,137 @@
-import React from "react";
-import { VscEdit } from "react-icons/vsc";
-import { VscSave } from "react-icons/vsc";
-import { VscClose } from "react-icons/vsc";
-//import classnames from 'classnames';
+import React from 'react';
+import { VscEdit, VscSave, VscClose } from 'react-icons/vsc';
 
-import "./Card.css";
+//import CardHeaderInput from './CardHeaderInput';
+import './Card.css';
 
-var classNames = require("classnames");
+import classnames from 'classnames';
 
 class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: false,
       clicked: false,
-        input: "",
-        inputValue: "",
-        textarea: "",
-        textareaValue: "",
+      checked: false,
+      tempData: {
+        inputValue: '',
+        textareaValue: '',
+      }
     };
   }
 
-  handleSubmit(event) {
+
+  changeHandler = ({ target: { name, value } }) => {
+    this.setState(({ tempData }) => ({
+      tempData: {
+        ...tempData,
+        [name]: value
+      },
+    }));
+  }
+
+  handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({ input: this.state.inputValue });
-    this.setState({ textarea: this.state.textareaValue });
+ 
+    this.props.updateValue(this.state.tempData);
+
+    this.setState({
+      clicked: false,
+      checked: false,
+    });
   }
 
-  inputChangeHandler(event) {
-    this.setState({ inputValue: event.target.value });
+  onCancel = () => {
+    this.setState((state, { inputValue, textareaValue }) => ({
+      clicked: false,
+      checked: false,
+      tempData: {
+        inputValue,
+        textareaValue,
+      }
+    }));
   }
 
-  textareaChangeHandler(event) {
-    this.setState({ textareaValue: event.target.value });
+  onEdit = () => {
+    this.setState({
+      clicked: true,
+      checked: false,
+    });
   }
 
-  onClicked() {
-    this.setState((state) => ({ clicked: !state.clicked }));
-    if (this.state.checked) {
-      this.setState({ checked: false });
-    }
-
-    this.setState({ inputValue: this.state.input });
-    this.setState({ textareaValue: this.state.textarea });
+  onCheckboxChange = () => {
+    this.setState(({ checked }) => ({ checked: !checked }));
   }
 
   render() {
-    var inputClass = classNames("card-text__caption-none", {
-      "card-text__caption": this.state.clicked,
+    const {
+      clicked,
+      checked,
+      tempData: {
+        inputValue,
+        textareaValue,
+      },
+    } = this.state;
+
+    const inputClass = classnames('card-text__caption-none', {
+      'card-text__caption': clicked,
     });
-    var textareaClass = classNames("card-text__none", {
-      "card-text": this.state.clicked,
+    const btnEditClass = classnames('card-button', {
+      'card-button__none': clicked,
     });
-    var btnEditClass = classNames("card-button", {
-      "card-button__none": this.state.clicked,
+    const checkboxClass = classnames({
+      'card-input__none': clicked,
+    });
+    const saveCancelButtonsClass = classnames({
+      'save-cancel__buttons': !clicked,
+    });
+    const textareaClass = classnames('card-text__none', {
+      'card-text': clicked,
     });
 
     return (
-      <div className={this.state.checked ? "card-item" : "card"}>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <div className={"card-inner__caption"}>
+      <div className={checked ? 'card-item' : 'card'}>
+        <form onSubmit={this.handleSubmit}>
+          <div className="card-inner__caption">
             <input
               autoComplete="off"
               className={inputClass}
-              placeholder={
-                this.state.clicked ? "Enter Caption" : "Click Button >>>"
-              }
-              value={this.state.inputValue}
-              onChange={(e) => this.inputChangeHandler(e)}
-              disabled={this.state.clicked ? false : true}
+              placeholder={clicked ? 'Enter Caption' : ''}
+              name="inputValue"
+              value={inputValue}
+              onChange={this.changeHandler}
+              disabled={!clicked}
             />
 
             <div className="buttons">
               <button
                 className={btnEditClass}
-                onClick={() => {
-                  this.setState((state) => ({ clicked: !state.clicked }));
-                  if (this.state.checked) {
-                    this.setState({ checked: false });
-                  }
-                }}
+                onClick={this.onEdit}
+                disabled={clicked}
               >
                 <VscEdit />
               </button>
 
               <input
                 type="checkbox"
-                className={this.state.clicked ? "card-input__none" : ""}
-                onChange={() => {
-                  this.setState((state) => ({ checked: !state.checked }));
-                }}
-                checked={this.state.checked}
+                className={checkboxClass}
+                onChange={this.onCheckboxChange}
+                checked={checked}
+                disabled={clicked}
               />
 
-              <div className={this.state.clicked ? "" : "save-cancel__buttons"}>
+              <div className={saveCancelButtonsClass}>
                 <button
                   type="submit"
-                  onClick={() => {
-                    this.setState((state) => ({ clicked: !state.clicked }));
-                  }}
                   className="button-save"
+                  disabled={!clicked}
                 >
                   <VscSave />
                 </button>
+
                 <button
                   className="button-cancel"
-                  onClick={() => this.onClicked()}
+                  onClick={this.onCancel}
+                  disabled={!clicked}
                 >
                   <VscClose />
                 </button>
@@ -113,16 +139,17 @@ class Card extends React.Component {
             </div>
           </div>
 
-          <hr></hr>
+          <hr />
 
           <textarea
             type="text"
             autoComplete="off"
             className={textareaClass}
-            placeholder={this.state.clicked ? "Enter Text" : ""}
-            value={this.state.textareaValue}
-            onChange={(e) => this.textareaChangeHandler(e)}
-            disabled={this.state.clicked ? false : true}
+            placeholder={clicked ? 'Enter Text' : ''}
+            name="textareaValue"
+            value={textareaValue}
+            onChange={this.changeHandler}
+            disabled={!clicked}
           />
         </form>
       </div>
