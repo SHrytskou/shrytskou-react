@@ -2,10 +2,13 @@
     padding: 0;
     margin: 10px auto;
   
-    max-width: 500px; 
+    max-width: 700px; 
     width: 100%;
-    height: 500px;
+    height: 700px;
   
     border: 4px solid rgb(211, 22, 132);
+
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(75, 11, 75, 0.25);
   }
   
