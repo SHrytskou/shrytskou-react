@@ -1,10 +1,8 @@
 import React from "react";
 import { VscEdit, VscSave, VscClose } from "react-icons/vsc";
 
-//import CardHeaderInput from './CardHeaderInput';
 import "./Card.css";
 
-import classnames from "classnames";
 
 class Card extends React.Component {
   constructor(props) {
@@ -12,10 +10,9 @@ class Card extends React.Component {
     this.state = {
       clicked: false,
       checked: false,
-      //checkboxUnderHeader: false,
       tempData: {
-        inputValue: "",
-        textareaValue: "",
+        title: this.props.title,
+        text: this.props.text,
       },
     };
   }
@@ -32,7 +29,7 @@ class Card extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.props.updateValue(this.state.tempData);
+    this.props.updateValue(this.props.id, this.state.tempData);
 
     this.setState({
       clicked: false,
@@ -41,12 +38,12 @@ class Card extends React.Component {
   };
 
   onCancel = () => {
-    this.setState((state, { inputValue, textareaValue }) => ({
+    this.setState((state, { title, text }) => ({
       clicked: false,
       checked: false,
       tempData: {
-        inputValue,
-        textareaValue,
+        title,
+        text,
       },
     }));
   };
@@ -58,122 +55,107 @@ class Card extends React.Component {
     });
   };
 
-  onCheckboxHeaderCardChange = () => {
+  onHeaderCardChange = () => {
     this.setState(({ checked }) => ({ checked: !checked }));
   };
 
-  /* onCheckboxUnderHeaderChange = (props) => {
-    this.setState((state, { inputValue, textareaValue }) => ({
-      clicked: false,
-      tempData: {
-        inputValue,
-        textareaValue,
-      },
-    }));
-  }; */
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.checkboxUnderHeader === true) {
-      return {
+  static getDerivedStateFromProps(props) {
+    return props.isOnlyViewMode ?
+      ({
         clicked: false,
-        tempData: { ...props.data },
-      };
-    }
-    return null;
+        tempData: {
+          title: props.title,
+          text: props.text,
+        },
+      })
+      : null
   }
 
   render() {
     const {
       clicked,
       checked,
-      tempData: { inputValue, textareaValue },
+      tempData: { title, text },
     } = this.state;
 
-    const { checkboxUnderHeader } = this.props;
+    const { isOnlyViewMode } = this.props;
 
-    const inputClass = classnames("card-text__caption-none", {
-      "card-text__caption": clicked,
-    });
-    const editCheckboxHeaderCardClass = classnames("edit-checkbox__header", {
-      "edit-checkbox__header-none": clicked,
-    });
-    /* const checkboxClass = classnames({
-      "card-input__none": clicked,
-    }); */
-    const saveCancelButtonsClass = classnames({
-      "save-cancel__buttons-none": !clicked,
-    });
+    const inputClass = clicked 
+      ? "card-input__edit-text" 
+      : "card-input";
 
-    const textareaClass = classnames("card-text__none", {
-      "card-text": clicked,
-    });
+    const textareaClass = clicked
+      ? "card-textarea"
+      : "card-textarea__edit-text";
 
     return (
       <div className={checked ? "card-item" : "card"}>
         <form onSubmit={this.handleSubmit}>
           <div className="card-inner__caption">
-            <div className={!checkboxUnderHeader ? "" : "card-button__none"}>
+            <div>
               <input
                 type="text"
                 autoComplete="off"
                 className={inputClass}
                 placeholder={clicked ? "Enter Caption" : ""}
-                name="inputValue"
-                value={inputValue}
+                name="title"
+                value={title}
                 onChange={this.changeHandler}
                 disabled={!clicked}
               />
             </div>
             <div className="buttons">
-              <div className={editCheckboxHeaderCardClass}>
-                <button
-                  className={
-                    !checkboxUnderHeader ? "card-button" : "card-button__none"
-                  }
-                  onClick={this.onEdit}
-                  disabled={clicked}
-                >
-                  <VscEdit />
-                </button>
 
-                <input
-                  type="checkbox"
-                  onChange={this.onCheckboxHeaderCardChange}
-                  checked={checked}
-                />
-              </div>
+            {!clicked ? (
+                <div>
+                  <button
+                    className={
+                      !isOnlyViewMode ? "card-button" : "card-button__none"
+                    }
+                    onClick={this.onEdit}
+                    disabled={clicked}
+                  >
+                    <VscEdit className="vscEdit" />
+                  </button>
 
-              <div className={saveCancelButtonsClass}>
-                <button
-                  type="submit"
-                  className={
-                    !checkboxUnderHeader ? "button-save" : "card-button__none"
-                  }
-                >
-                  <VscSave />
-                </button>
+                  <input
+                    type="checkbox"
+                    onChange={this.onHeaderCardChange}
+                    checked={checked}
+                  />
+                </div>
+              ) : null}
 
-                <button
-                  className={
-                    !checkboxUnderHeader ? "button-cancel" : "card-button__none"
-                  }
-                  onClick={this.onCancel}
-                >
-                  <VscClose />
-                </button>
-              </div>
+              {clicked ? (
+                <div>
+                  <button
+                    type="submit"
+                    className={!isOnlyViewMode ? "button-save" : null}
+                  >
+                    <VscSave />
+                  </button>
+
+                  <button
+                    className={!isOnlyViewMode ? "button-cancel" : null}
+                    onClick={this.onCancel}
+                  >
+                    <VscClose />
+                  </button>
+                </div>
+              ) : null}
+
             </div>
           </div>
           <hr />
 
-          <div className={!checkboxUnderHeader ? "" : "card-button__none"}>
+          <div>
             <textarea
               type="text"
               autoComplete="off"
               className={textareaClass}
               placeholder={clicked ? "Enter Text" : ""}
-              name="textareaValue"
-              value={textareaValue}
+              name="text"
+              value={text}
               onChange={this.changeHandler}
               disabled={!clicked}
             />

@@ -55,7 +55,6 @@ form {
 
 .card-item {
   display: flex;
-
   margin: 10px;
   padding: 5px;
   width: 30.4%;
@@ -68,7 +67,6 @@ form {
 .card-inner__caption {
   display: flex;
   position: relative;
-  display: flex;
   height: 25%;
   width: 100%;
   align-items: center;
@@ -89,28 +87,20 @@ form {
   cursor: pointer;
 }
 
-.edit-checkbox__header {
+.vscEdit {
   display: flex;
-  align-items: center;
+  align-items: center;  
 }
 
-.edit-checkbox__header-none {
-  display: none;
-}
-
-.card-input__none {
-  display: none;
-}
 
 .card-button__none {
   display: none;
 }
-/* .save-cancel__buttons {
-  display: none;
-} */
 
-.save-cancel__buttons-none{
-  display: none;
+.buttons {
+  display: flex;
+  position: absolute;
+  right: 0; 
 }
 
 .button-save {  
@@ -126,25 +116,50 @@ form {
 }
 
 
-.card-text {  
-  cursor: pointer;
+.outer-input__div {
+  width: 65%;
 }
 
-.card-text__caption {
+.card-input {
+  width: 100%;
   cursor: pointer;
-}
-
-.card-text__caption-none {
-  color: rgb(34, 233, 34);
+  background-color: inherit;
   border: none;
   background-color: transparent;
+  color: rgb(105, 194, 190);
   box-shadow: none;
   outline: 0;
   outline-offset: 0;
 }
 
+.card-input__edit-text {
+  width: 100%;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  background-color: transparent;
+  color: rgb(34, 233, 34);
+  box-shadow: none;
+  outline: 0;
+  outline-offset: 0;
+}
 
-.card-text__none {
+.card-textarea__edit-text {
+  resize: none;
+  width: 100%;
+  height: 60%;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  background-color: transparent;
+  color: rgb(105, 194, 190);
+  box-shadow: none;
+  outline: 0;
+  outline-offset: 0;
+}
+
+.card-textarea {
+  cursor: pointer;
   resize: none;
   width: 100%;
   height: 60%;
@@ -158,11 +173,7 @@ form {
   outline-offset: 0;
 }
 
-.buttons {
-  display: flex;
-  position: absolute;
-  right: 0;
-}
+
 
 
 

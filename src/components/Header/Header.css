@@ -17,7 +17,6 @@
   color: rgb(93, 156, 207);
 }
 
-.checkboxUnderHeader {
-  width: 100%;
+.checkbox__only-view {
   padding: 0.2em 0.5em;
 }

@@ -8,10 +8,6 @@ class Header extends React.Component {
     }
   }
 
-  onCheckboxUnderHeaderChange = () => {
-      this.props.onCheckboxUnderHeaderChange()
-  }; 
-
   render() {
     return (
       
@@ -20,14 +16,13 @@ class Header extends React.Component {
         <h2 className="header-item">Header</h2>        
       </div>
 
-      <div className="checkboxUnderHeader">
+      <div className="checkbox__only-view">
             <label>
               <input
                 type="checkbox"
-                //checked={checkboxUnderHeader}
-                onChange={this.onCheckboxUnderHeaderChange}  
+                onChange={() => this.props.onIsOnlyViewModeChange()}  
               />{" "}
-              View only
+              Only view
             </label>
           </div>
       </div>
