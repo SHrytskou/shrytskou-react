@@ -17,6 +17,11 @@
   color: rgb(93, 156, 207);
 }
 
-.checkbox__only-view {
-  padding: 0.2em 0.5em;
+.checkbox {
+  position: relative;
 }
+
+/* .checkbox__label {
+  font-size: 1em;
+  color: rgb(7, 49, 88);
+} */

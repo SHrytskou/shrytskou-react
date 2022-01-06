@@ -25,22 +25,22 @@ class App extends React.Component {
           title: "",
           text: "",
         },
-		{
+        {
           id: 4,
           title: "",
           text: "",
         },
-		{
+        {
           id: 5,
           title: "",
           text: "",
         },
-		{
+        {
           id: 6,
           title: "",
           text: "",
         },
-		{
+        {
           id: 7,
           title: "",
           text: "",
